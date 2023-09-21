@@ -1,12 +1,23 @@
-'use client'
+"use client";
 
-import { TbPlaylist } from 'react-icons/tb'
-import { AiOutlinePlus } from 'react-icons/ai'
+import { TbPlaylist } from "react-icons/tb";
+import { AiOutlinePlus } from "react-icons/ai";
+import useAuthModal from "@/hooks/useAuthModal";
+import { useUser } from "@/hooks/useUser";
+import useUploadModal from "@/hooks/useUploadModal";
 
 const Library = () => {
+  const authModal = useAuthModal();
+  const uploadModal = useUploadModal();
+  const { user } = useUser();
+
   const onClick = () => {
-    // handle later
-  }
+    if (!user) {
+      return authModal.onOpen();
+    }
+
+    return uploadModal.onOpen();
+  };
 
   return (
     <div className="flex flex-col">
@@ -26,7 +37,7 @@ const Library = () => {
             gap-x-2
           "
         >
-          <TbPlaylist className='text-neutral-400' size={26} />
+          <TbPlaylist className="text-neutral-400" size={26} />
           <p
             className="
               text-neutral-400
@@ -48,17 +59,19 @@ const Library = () => {
           "
         />
       </div>
-      <div className='
+      <div
+        className="
         flex
         flex-col
         gap-y-2
         mt-4
         px-3
-      '>
+      "
+      >
         List of Songs!
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Library;
